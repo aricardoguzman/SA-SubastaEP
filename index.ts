@@ -45,7 +45,7 @@ function onNewWebsocketConnection(socket: Socket) {
 
     socket.emit("welcome", `Welcome! You are visitor number ${nextVisitorNumber++}`);
 
-    socket.on('join-room', async (name) => {
+    socket.on('join-room', async (name: any) => {
         //we check if auction id is created
 
         let cData = JSON.parse(name);
