@@ -119,7 +119,7 @@ async function timerLoop(name: string, auction: string) {
 
     let token: any = await fetchQuery(token_url, "POST", credentials, undefined);
 
-    console.log(token);
+    //console.log(token);
 
     let response: any = await fetchQuery(esb_url + '/Vehiculo', 'PUT', {
         jwt: token.token,
@@ -129,17 +129,17 @@ async function timerLoop(name: string, auction: string) {
         valor_adjudicacion: auctionMap[auction].current
     }, undefined)
 
-    console.log('pasó???');
+    //console.log('pasó???');
 
     if (response.respuesta) {
-        await fetchQuery(esb_url + '/Vehiculo', 'PUT', {
+        response = await fetchQuery(esb_url + '/Vehiculo', 'PUT', {
             jwt: token.token,
             id: name,
             estado: 5
         }, undefined)
     }
 
-    Connection.ioserver!.to(name).emit('finish', 'se acabo!');
+    Connection.ioserver!.to(name).emit('finish', (response.respuesta) ? 'Si se vendió!' : 'No se vendió');
 }
 
 startServer();
